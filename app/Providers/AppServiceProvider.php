@@ -21,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Validator::extend('iso_date', IsoValidator::class.'@validateIsoDate');
+        Validator::extend('iso_date', IsoValidator::class . '@validateIsoDate');
     }
 }

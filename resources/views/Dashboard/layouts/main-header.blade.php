@@ -1,7 +1,7 @@
 <!-- main-header opened -->
 <div class="main-header sticky side-header nav nav-item">
     <div class="container-fluid">
-        <div class="main-header-left ">
+        <div class="main-header-left">
             <div class="responsive-logo">
                 <a href="{{ url('/' . ($page = 'index')) }}"><img src="{{ asset('Dashboard/img/brand/logo.png') }}"
                         class="logo-1" alt="logo"></a>
@@ -24,54 +24,46 @@
         <div class="main-header-right">
             <ul class="nav">
                 <li class="">
-                    <div class="dropdown  nav-itemd-none d-md-flex">
-                        <a href="#" class="d-flex  nav-item nav-link pl-0 country-flag1" data-toggle="dropdown"
+
+                    <div class="dropdown nav-item d-none d-md-flex">
+                        <a href="#" class="d-flex nav-item nav-link pl-0 country-flag1" data-toggle="dropdown"
                             aria-expanded="false">
-                            <span class="avatar country-Flag mr-0 align-self-center bg-transparent"><img
-                                    src="{{ asset('Dashboard/img/flags/us_flag.jpg') }}" alt="img"></span>
+                            @php
+                                $locale = app()->getLocale();
+                                $flag =
+                                    $locale == 'en'
+                                        ? 'us_flag.jpg'
+                                        : ($locale == 'ar'
+                                            ? 'egypt_flag.jpg'
+                                            : 'us_flag.jpg');
+                                $langName = $locale == 'en' ? 'English' : 'Arabic';
+                            @endphp
+                            <span class="avatar country-Flag mr-0 align-self-center bg-transparent">
+                                <img src="{{ asset('Dashboard/img/flags/' . $flag) }}" alt="flag">
+                            </span>
                             <div class="my-auto">
-                                <strong class="mr-2 ml-2 my-auto">English</strong>
+                                <strong class="mr-2 ml-2 my-auto">{{ $langName }}</strong>
                             </div>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow" x-placement="bottom-end">
-                            <a href="#" class="dropdown-item d-flex ">
-                                <span class="avatar  ml-3 align-self-center bg-transparent"><img
-                                        src="{{ asset('Dashboard/img/flags/french_flag.jpg') }}" alt="img"></span>
-                                <div class="d-flex">
-                                    <span class="mt-2">French</span>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item d-flex">
-                                <span class="avatar  ml-3 align-self-center bg-transparent"><img
-                                        src="{{ asset('Dashboard/img/flags/germany_flag.jpg') }}"
-                                        alt="img"></span>
-                                <div class="d-flex">
-                                    <span class="mt-2">Germany</span>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item d-flex">
-                                <span class="avatar ml-3 align-self-center bg-transparent"><img
-                                        src="{{ asset('Dashboard/img/flags/italy_flag.jpg') }}" alt="img"></span>
-                                <div class="d-flex">
-                                    <span class="mt-2">Italy</span>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item d-flex">
-                                <span class="avatar ml-3 align-self-center bg-transparent"><img
-                                        src="{{ asset('Dashboard/img/flags/russia_flag.jpg') }}" alt="img"></span>
-                                <div class="d-flex">
-                                    <span class="mt-2">Russia</span>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item d-flex">
-                                <span class="avatar  ml-3 align-self-center bg-transparent"><img
-                                        src="{{ asset('Dashboard/img/flags/spain_flag.jpg') }}" alt="img"></span>
-                                <div class="d-flex">
-                                    <span class="mt-2">spain</span>
-                                </div>
-                            </a>
+                        <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
+                            @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                @if ($localeCode != app()->getLocale())
+                                    <a rel="alternate" hreflang="{{ $localeCode }}"
+                                        href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"
+                                        class="dropdown-item d-flex">
+                                        <span class="avatar ml-3 align-self-center bg-transparent">
+                                            <img src="{{ asset('Dashboard/img/flags/' . ($localeCode == 'en' ? 'us_flag.jpg' : 'egypt_flag')) }}"
+                                                alt="flag">
+                                        </span>
+                                        <div class="d-flex">
+                                            <span class="mt-2">{{ $properties['native'] }}</span>
+                                        </div>
+                                    </a>
+                                @endif
+                            @endforeach
                         </div>
                     </div>
+
                 </li>
             </ul>
             <div class="nav nav-item  navbar-nav-right ml-auto">
@@ -84,10 +76,9 @@
                                     <i class="fas fa-times"></i>
                                 </button>
                                 <button type="submit" class="btn btn-default nav-link resp-btn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-search">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-search">
                                         <circle cx="11" cy="11" r="8"></circle>
                                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                                     </svg>
@@ -125,11 +116,11 @@
                                     <div class="d-flex">
                                         <h5 class="mb-1 name">Ahmed Al Khateeb</h5>
                                     </div>
-                                    <p class="mb-0 desc">I'm sorry but i'm not sure how to help you with that......</p>
-                                    <p class="time mb-0 text-left float-right mr-2 mt-2">Mar 15 3:55 PM</p>
+                                    {{-- <p class="mb-0 desc">I'm sorry but i'm not sure how to help you with that......</p>
+                                    <p class="time mb-0 text-left float-right mr-2 mt-2">Mar 15 3:55 PM</p> --}}
                                 </div>
                             </a>
-                            <a href="#" class="p-3 d-flex border-bottom">
+                            {{-- <a href="#" class="p-3 d-flex border-bottom">
                                 <div class="drop-img cover-image"
                                     data-image-src="{{ asset('Dashboard/img/faces/2.jpg') }}">
                                     <span class="avatar-status bg-teal"></span>
@@ -180,7 +171,7 @@
                                     <p class="mb-0 desc">I'm sorry but i'm not sure how...</p>
                                     <p class="time mb-0 text-left float-right mr-2 mt-2">Jan 29 03:16 PM</p>
                                 </div>
-                            </a>
+                            </a> --}}
                         </div>
                         <div class="text-center dropdown-footer">
                             <a href="text-center">VIEW ALL</a>
@@ -206,7 +197,7 @@
                             <p class="dropdown-title-text subtext mb-0 text-white op-6 pb-0 tx-12 ">You have 4 unread
                                 Notifications</p>
                         </div>
-                        <div class="main-notification-list Notification-scroll">
+                        {{-- <div class="main-notification-list Notification-scroll">
                             <a class="d-flex p-3 border-bottom" href="#">
                                 <div class="notifyimg bg-pink">
                                     <i class="la la-file-alt text-white"></i>
@@ -279,7 +270,7 @@
                                     <i class="las la-angle-left text-left text-muted"></i>
                                 </div>
                             </a>
-                        </div>
+                        </div> --}}
                         <div class="dropdown-footer">
                             <a href="">VIEW ALL</a>
                         </div>

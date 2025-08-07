@@ -19,9 +19,13 @@ class AuthenticatedSessionController extends Controller
 
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
-        $request->session()->regenerate();
-        return redirect()->intended(RouteServiceProvider::HOME); // ✅
+        if ($request->authenticate()) {
+            $request->session()->regenerate();
+            return redirect()->intended(RouteServiceProvider::HOME); // ✅
+        }
+        return $this->errorResponse([
+            'message' => 'بيانات الدخول غير صحيحة',
+        ], 401);
     }
 
     public function destroy(Request $request): RedirectResponse
