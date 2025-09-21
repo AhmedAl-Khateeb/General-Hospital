@@ -7,7 +7,6 @@ use App\Http\Requests\Section\SectionRequest;
 use App\Models\Section;
 use App\Services\SectionService;
 use App\Traits\HttpResponse;
-use Illuminate\Http\Request;
 
 class SectionController extends Controller
 {
@@ -26,11 +25,10 @@ class SectionController extends Controller
         return view('Dashboard.sections.create');
     }
 
-    public function store(SectionRequest $request) {}
-
-    public function show(string $id)
+    public function store(SectionRequest $request)
     {
-        //
+        $this->sectionService->store($request->validated());
+        return redirect()->route('section.index')->with('success',  __('dashboard.Section created successfully'));
     }
 
     public function edit(string $id)
@@ -41,11 +39,14 @@ class SectionController extends Controller
 
     public function update(SectionRequest $request, string $id)
     {
-        //
+        $this->sectionService->update($request->validated(), $id);
+        return redirect()->route('section.index')->with('success',  __('dashboard.Section updated successfully'));
     }
 
     public function destroy(string $id)
     {
-        //
+        $this->sectionService->destroy($id);
+        return redirect()->route('section.index')
+            ->with('success', __('dashboard.Section deleted successfully'));
     }
 }

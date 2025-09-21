@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Auth\AdminController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\DoctorController;
 use App\Http\Controllers\Dashboard\SectionController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -40,9 +42,7 @@ Route::group(
 
         // للأدمن (admin)
         Route::middleware(['auth:admin'])->prefix('dashboard')->group(function () {
-            Route::get('/admin', function () {
-                return view('Dashboard.Admin.dashboard');
-            })->name('dashboard.admin');
+            Route::get('/admin', [HomeController::class, 'index'])->name('dashboard.admin');
         });
 
         Route::middleware(['auth:admin'])->group(function () {
@@ -57,6 +57,20 @@ Route::group(
                 Route::delete('delete/{id}', [SectionController::class, 'destroy'])->name('section.delete');
             });
             // Sections Route End
+
+            // Doctors Route Start
+            Route::prefix('doctors')->group(function () {
+                Route::get('index', [DoctorController::class, 'index'])->name('doctor.index');
+                Route::get('create', [DoctorController::class, 'create'])->name('doctor.create');
+                Route::post('store', [DoctorController::class, 'store'])->name('doctor.store');
+                Route::post('show/{id}', [DoctorController::class, 'show'])->name('doctor.show');
+                Route::get('edit/{id}', [DoctorController::class, 'edit'])->name('doctor.edit');
+                Route::put('update/{id}', [DoctorController::class, 'update'])->name('doctor.update');
+                Route::delete('delete/{id}', [DoctorController::class, 'destroy'])->name('doctor.delete');
+
+                Route::put('change-status/{id}', [DoctorController::class, 'changeStatus'])->name('doctor.changeStatus');
+            });
+            // Doctors Route End
         });
         require __DIR__ . '/auth.php';
     }

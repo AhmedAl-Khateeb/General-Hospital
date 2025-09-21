@@ -12,7 +12,5 @@ class Section extends Model
 
     protected $fillable = ['name'];
 
-    public $timestamps = false;
-
     public $translatable = ['name'];
 }

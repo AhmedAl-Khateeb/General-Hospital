@@ -1,6 +1,6 @@
 @extends('Dashboard.layouts.master')
-@section('section_active', 'active')
-@section('section_open', 'open')
+@section('doctor_active', 'active')
+@section('doctor_open', 'open')
 @section('css')
     <!-- Internal Data table css -->
     <link href="{{ asset('Dashboard/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
@@ -58,10 +58,10 @@
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
-                        {{ __('dashboard.Add Section+') }}
-                    </button>
-                    <a href="{{ route('dashboard.admin') }}" class="btn btn-secondary">{{ __('dashboard.Back') }}</a>
+                            data-bs-target="#createDoctorModal">
+                            {{ __('dashboard.Add Doctor+') }}
+                        </button>
+                        <a href="{{ route('dashboard.admin') }}" class="btn btn-secondary">{{ __('dashboard.Back') }}</a>
                     </div>
 
                 </div>
@@ -72,17 +72,43 @@
                             <tr>
                                 <th class="wd-15p border-bottom-0">ID</th>
                                 <th class="wd-15p border-bottom-0">{{ __('dashboard.Name') }}</th>
-                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Created At') }}</th>
+                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Email') }}</th>
+                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Phone') }}</th>
+                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Status') }}</th>
                                 <th class="wd-15p border-bottom-0">{{ __('dashboard.Action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($sections as $item)
+                            @forelse($doctors as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->created_at }}</td>
+                                    <td>{{ $item->getTranslation('name', app()->getLocale()) }}</td>
+
+                                    <td>{{ $item->email }}</td>
+                                    <td>{{ $item->phone }}</td>
                                     <td>
+                                        <form action="{{ route('doctor.changeStatus', $item->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <select name="status" class="form-control text-center"
+                                                style="font-size: 15px; height: 40px; {{ $item->status == 1 ? 'color: green;' : 'color: red;' }}"
+                                                onchange="this.style.color = (this.value == 1 ? 'green' : 'red'); this.form.submit();">
+                                                <option value="" disabled>{{ __('dashboard.Change Status') }}
+                                                </option>
+                                                <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>مفعل
+                                                </option>
+                                                <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>غير مفعل
+                                                </option>
+                                            </select>
+
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                            data-bs-target="#showModal-{{ $item->id }}">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+
                                         <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#updateModal-{{ $item->id }}">
                                             <i class="fa-regular fa-pen-to-square"></i>
@@ -93,11 +119,14 @@
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
 
-                                        @include('Dashboard.sections.update', [
-                                            'section' => $item,
+                                        @include('Dashboard.doctors.update', [
+                                            'doctor' => $item,
                                         ])
-                                        @include('Dashboard.sections.delete', [
-                                            'section' => $item,
+                                        @include('Dashboard.doctors.delete', [
+                                            'doctor' => $item,
+                                        ])
+                                        @include('Dashboard.doctors.showDetails', [
+                                            'doctor' => $item,
                                         ])
                                     </td>
 
@@ -111,7 +140,7 @@
                     </table>
                 </div>
                 <div class="d-flex justify-content-center mt-3">
-                    {{ $sections->links('pagination::bootstrap-4') }}
+                    {{ $doctors->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>
@@ -121,7 +150,7 @@
 
     </div>
 
-    @include('Dashboard.sections.create')
+    @include('Dashboard.doctors.create')
 
     <!-- row closed -->
     </div>

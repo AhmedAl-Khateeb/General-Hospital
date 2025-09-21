@@ -7,45 +7,37 @@
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
-    <div class="breadcrumb-header justify-content-between text-center">
-        <div class="left-content text-center">
-            <div>
-                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1 text-center">Hi, welcome back Admin !</h2>
+    <div class="breadcrumb-header text-center mb-4">
+        <div class="left-content">
+            <h2 class="main-content-title tx-24">👋 {{ __('dashboard.Admin') }}</h2>
+            <p class="text-muted">{{ __('dashboard.Here is an overview of your system performance today') }}</p>
+        </div>
+    </div>
+@endsection
+
+@section('content')
+    <div class="row row-sm g-4">
+        <!-- Sections -->
+        <div class="col-lg-4 col-md-12 col-sm-12 mb-4">
+            <div class="card rounded-4 custom-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+                        <h5 class="mb-0">
+                            <i class="fa fa-layer-group text-info"></i> {{ __('dashboard.Number of Sections') }}
+                        </h5>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a href="{{ route('section.index') }}" class="btn btn-success">
+                            {{ __('dashboard.Show') }}
+                        </a>
+                        <h2 class="fw-bold mb-0">{{ $sections }}</h2>
+                    </div>
+                </div>
             </div>
         </div>
-@endsection
-@section('content')
-    <!-- row -->
-    <div class="row row-sm">
-      
-    </div>
-    <!-- row closed -->
 
-    <!-- row opened -->
-    <div class="row row-sm">
-        
-    </div>
-    <!-- row closed -->
 
-    <!-- row opened -->
-    <div class="row row-sm">
-        
     </div>
-    <!-- row close -->
-
-    <!-- row opened -->
-    <div class="row row-sm row-deck">
-        <div class="col-md-12 col-lg-4 col-xl-4">
-           
-        </div>
-        <div class="col-md-12 col-lg-8 col-xl-8">
-            
-        </div>
-    </div>
-    <!-- /row -->
-    </div>
-    </div>
-    <!-- Container closed -->
 @endsection
 @section('js')
     <!--Internal  Chart.bundle js -->

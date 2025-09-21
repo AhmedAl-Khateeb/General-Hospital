@@ -15,7 +15,7 @@
 <body class="main-body app sidebar-mini">
     <!-- Loader -->
     <div id="global-loader">
-        <img src="{{ asset('Dashbord/img/loader.svg') }}" class="loader-img" alt="Loader">
+        <img src="{{ asset('Dashboard/img/loader.svg') }}" class="loader-img" alt="Loader">
     </div>
     <!-- /Loader -->
     @include('Dashboard.layouts.main-sidebar')
@@ -30,7 +30,7 @@
             @include('Dashboard.layouts.models')
             @include('Dashboard.layouts.footer')
             @include('Dashboard.layouts.footer-scripts')
-		</div>
+        </div>
 </body>
 
 </html>

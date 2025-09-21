@@ -18,4 +18,31 @@ class MediaHelper
                 )
             );
     }
+
+    public static function uploadMedia($model, $file, $collection)
+    {
+        if (!$file) {
+            return;
+        }
+
+        if (is_array($file)) {
+            foreach ($file as $singleFile) {
+                $media = $model->addMedia($singleFile)
+                    ->toMediaCollection($collection, 'media');
+
+                $filePath = $media->getPath();
+                if (file_exists($filePath)) {
+                    @chmod($filePath, 0644);
+                }
+            }
+        } else {
+            $media = $model->addMedia($file)
+                ->toMediaCollection($collection, 'media');
+
+            $filePath = $media->getPath();
+            if (file_exists($filePath)) {
+                @chmod($filePath, 0644);
+            }
+        }
+    }
 }
