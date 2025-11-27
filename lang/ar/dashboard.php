@@ -72,4 +72,13 @@ return [
     'Active' => 'نشط',
     'examination_price' => 'سعر الكشف',
     'Examination Price' => 'سعر الكشف',
+    'Description' => 'الوصف',
+    'Choose Appointment' => 'اختيار الموعد',
+    'Sections Trans Warning' => 'أقسام تحذير النقل',
+    'Delete All Doctors' => 'حذف اكثر من طبيب',
+    'Doctors Delete Select' => 'حذف اكثر من طبيب',
+    'Are you sure you want to delete the selected doctors?' => 'هل انت متاكد من حذف الاطباءالمحددون',
+    'Submit' => 'تاكيد',
+    'Processes' => 'العمليات',
+    'sections_trans.warning' => 'يرجى التأكد من مراجعة الأطباء قبل حذف ',
 ];

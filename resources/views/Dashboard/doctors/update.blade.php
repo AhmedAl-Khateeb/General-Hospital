@@ -41,7 +41,7 @@
                         <!-- Name -->
                         <div class="col-md-6 mb-2">
                             <label for="name_ar">{{ __('dashboard.Name') }} (AR)</label>
-                            <input type="text" class="form-control @error('name.ar') is-invalid @enderror"
+                            <input type="text" autofocus class="form-control @error('name.ar') is-invalid @enderror"
                                 id="name_ar" name="name[ar]"
                                 value="{{ old('name.ar', $doctor->getTranslation('name', 'ar')) }}" required>
                             @error('name.ar')
@@ -51,7 +51,7 @@
 
                         <div class="col-md-6 mb-2">
                             <label for="name_en">{{ __('dashboard.Name') }} (EN)</label>
-                            <input type="text" class="form-control @error('name.en') is-invalid @enderror"
+                            <input type="text" autofocus class="form-control @error('name.en') is-invalid @enderror"
                                 id="name_en" name="name[en]"
                                 value="{{ old('name.en', $doctor->getTranslation('name', 'en')) }}" required>
                             @error('name.en')
@@ -59,26 +59,52 @@
                             @enderror
                         </div>
 
+
                         <!-- Appointments -->
-                        <div class="col-md-6 mb-2">
-                            <label for="appointments_ar">{{ __('dashboard.Appointments') }} (AR)</label>
-                            <input type="text" class="form-control"
-                                id="appointments_ar" name="appointments[ar]"
-                                value="{{ old('appointments.ar', implode(',', (array) $doctor->getTranslation('appointments', 'ar'))) }}">
+                        <div class="col-md-12 mb-2">
+                            <label>{{ __('dashboard.Appointments') }}</label>
+
+                            <div class="border rounded p-2">
+                                <button class="btn btn-outline-primary w-100" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#appointmentCollapse{{ $doctor->id }}">
+                                    {{ __('dashboard.Choose Appointment') }}
+                                </button>
+
+                                @php
+                                    // المواعيد المختارة مسبقًا (سواء من old أو من DB)
+                                    $selectedAppointments = old(
+                                        'appointment_ids',
+                                        $doctor->appointments->pluck('id')->toArray(),
+                                    );
+                                @endphp
+
+                                <div class="collapse mt-2" id="appointmentCollapse{{ $doctor->id }}">
+                                    @foreach ($appointments as $appointment)
+                                        <div class="form-check mb-1">
+                                            <input type="checkbox" class="form-check-input" name="appointment_ids[]"
+                                                id="appointment_{{ $doctor->id }}_{{ $appointment->id }}"
+                                                value="{{ $appointment->id }}"
+                                                {{ in_array($appointment->id, $selectedAppointments) ? 'checked' : '' }}>
+                                            <label class="form-check-label ms-2"
+                                                for="appointment_{{ $doctor->id }}_{{ $appointment->id }}">
+                                                {{ $appointment->getTranslation('name', app()->getLocale()) }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            @error('appointment_ids')
+                                <div class="text-danger mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
-                        <div class="col-md-6 mb-2">
-                            <label for="appointments_en">{{ __('dashboard.Appointments') }} (EN)</label>
-                            <input type="text" class="form-control"
-                                id="appointments_en" name="appointments[en]"
-                                value="{{ old('appointments.en', implode(',', (array) $doctor->getTranslation('appointments', 'en'))) }}">
-                        </div>
+
 
                         <!-- Email & Phone -->
                         <div class="col-md-6 mb-2">
                             <label for="email">{{ __('dashboard.Email') }}</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                id="email" name="email"
-                                value="{{ old('email', $doctor->email) }}" required>
+                                id="email" name="email" value="{{ old('email', $doctor->email) }}">
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -87,20 +113,8 @@
                         <div class="col-md-6 mb-2">
                             <label for="phone">{{ __('dashboard.Phone') }}</label>
                             <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                                id="phone" name="phone"
-                                value="{{ old('phone', $doctor->phone) }}" required>
+                                id="phone" name="phone" value="{{ old('phone', $doctor->phone) }}">
                             @error('phone')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Price -->
-                        <div class="col-md-6 mb-2">
-                            <label for="examination_price">{{ __('dashboard.Examination Price') }}</label>
-                            <input type="number" step="1" class="form-control @error('examination_price') is-invalid @enderror"
-                                id="examination_price" name="examination_price"
-                                value="{{ old('examination_price', (int) $doctor->examination_price) }}" required>
-                            @error('examination_price')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -128,7 +142,8 @@
                             <label for="password">{{ __('dashboard.Password') }}</label>
                             <input type="password" class="form-control @error('password') is-invalid @enderror"
                                 id="password" name="password">
-                            <small class="text-muted">{{ __('dashboard.Leave blank if you don’t want to change') }}</small>
+                            <small
+                                class="text-muted">{{ __('dashboard.Leave blank if you don’t want to change') }}</small>
                             @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

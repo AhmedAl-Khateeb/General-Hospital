@@ -70,4 +70,13 @@ return [
     'Active' => 'Active',
     'examination_price' => 'examination_price',
     'Examination Price' => 'Examination Price',
+    'Description' => 'Description',
+    'Choose Appointment' => 'Choose Appointment',
+    'Sections Trans Warning' => 'Sections Trans Warning',
+    'Delete All Doctors' => 'Delete All Doctors',
+    'Doctors Delete Select' => 'Doctors Delete Select',
+    'Are you sure you want to delete the selected doctors?' => 'Are you sure you want to delete the selected doctors?',
+    'Submit' => 'Submit',
+    'Processes' => 'Processes',
+    'sections_trans.warning' => 'sections_trans.warning',
 ];

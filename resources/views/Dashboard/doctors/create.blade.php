@@ -1,3 +1,9 @@
+<style>
+    .form-check-label {
+        margin-right: 20px;
+    }
+</style>
+
 <div class="modal fade" id="createDoctorModal" tabindex="-1" aria-labelledby="createModalLabel-" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -24,7 +30,7 @@
                         <!-- Name -->
                         <div class="col-md-6 mb-2">
                             <label for="name_ar">{{ __('dashboard.Name') }} (AR)</label>
-                            <input type="text" class="form-control @error('name.ar') is-invalid @enderror"
+                            <input type="text" autofocus class="form-control  @error('name.ar') is-invalid @enderror"
                                 id="name_ar" name="name[ar]" required>
                             @error('name.ar')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -32,33 +38,46 @@
                         </div>
                         <div class="col-md-6 mb-2">
                             <label for="name_en">{{ __('dashboard.Name') }} (EN)</label>
-                            <input type="text" class="form-control @error('name.en') is-invalid @enderror"
+                            <input type="text" autofocus class="form-control @error('name.en') is-invalid @enderror"
                                 id="name_en" name="name[en]" required>
                             @error('name.en')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <!-- Appointments -->
-                        <div class="col-md-6 mb-2">
-                            <label for="appointments_ar">{{ __('dashboard.Appointments') }} (AR)</label>
-                            <input type="text" name="appointments[ar]"
-                                class="form-control @error('appointments.ar') is-invalid @enderror"
-                                placeholder="مثال: الثلاثاء,الخميس,الجمعة">
-                            @error('appointments.ar')
-                                <div class="invalid-feedback">{{ $message }}</div>
+
+
+                        <div class="col-md-12 mb-2">
+                            <label>{{ __('dashboard.Appointments') }}</label>
+
+                            <div class="border rounded p-2">
+
+                                <button class="btn btn-outline-primary w-100" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#appointmentCollapse">
+                                    {{ __('dashboard.Choose Appointment') }}
+                                </button>
+
+                                <div class="collapse mt-2" id="appointmentCollapse">
+                                    @foreach ($appointments as $appointment)
+                                        <div class="form-check mb-1">
+                                            <input class="form-check-input" type="checkbox" name="appointment_ids[]"
+                                                id="appointment_{{ $appointment->id }}" value="{{ $appointment->id }}">
+                                            <label class="form-check-label ms-2"
+                                                for="appointment_{{ $appointment->id }}">
+                                                {{ $appointment->name }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                            </div>
+
+                            @error('appointment_ids')
+                                <div class="text-danger mt-1">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="col-md-6 mb-2">
-                            <label for="appointments_en">{{ __('dashboard.Appointments') }} (EN)</label>
-                            <input type="text" name="appointments[en]"
-                                class="form-control @error('appointments.en') is-invalid @enderror"
-                                placeholder="Example: Friday,Saturday">
-                            @error('appointments.en')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+
 
                         <!-- Email & Phone -->
                         <div class="col-md-6 mb-2">
@@ -80,14 +99,14 @@
                         </div>
 
                         <!-- Price & Password -->
-                        <div class="col-md-6 mb-2">
+                        {{-- <div class="col-md-6 mb-2">
                             <label for="price">{{ __('dashboard.Examination Price') }}</label>
                             <input type="number" class="form-control @error('examination_price') is-invalid @enderror"
                                 id="price" name="examination_price" required>
                             @error('examination_price')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         {{-- Section --}}
                         <div class="col-md-12 mb-2">
@@ -120,12 +139,16 @@
                         <!-- Image -->
                         <div class="col-md-12 mb-2">
                             <label for="image">{{ __('dashboard.Image') }}</label>
-                            <input type="file" class="form-control accept-image @error('image') is-invalid @enderror"
-                                id="image" name="image">
+                            <input type="file" accept="image/*"
+                                class="form-control accept-image @error('image') is-invalid @enderror" id="image"
+                                name="image">
                             @error('image')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+
+
                     </div>
                 </div>
 
@@ -141,3 +164,9 @@
         </div>
     </div>
 </div>
+
+<script src="{{ asset('Dashboard/js/select2.js') }}"></script>
+<script src="{{ asset('Dashboard/js/advanced-form-elements.js') }}"></script>
+<script src="{{ asset('Dashboard/plugins/sumoselect/jquery.sumoselect.js') }}"></script>
+<script src="{{ asset('Dashboard/plugins/notify/js/notifIt.js') }}"></script>
+<script src="{{ asset('Dashboard/plugins/notify/js/notifit-custom.js') }}"></script>

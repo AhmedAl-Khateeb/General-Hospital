@@ -20,7 +20,7 @@
                                         alt="doctor image" class="img-fluid rounded-circle shadow-sm mb-3"
                                         width="160" height="160">
                                 @else
-                                    <img src="{{ asset('default-doctor.png') }}" alt="no image"
+                                    <img src="{{ asset('Dashboard/img/download.jfif') }}" alt="no image"
                                         class="img-fluid rounded-circle shadow-sm mb-3" width="160" height="160">
                                 @endif
                                 <h5 class="fw-bold text-primary">
@@ -37,21 +37,57 @@
                     <div class="col-md-8">
                         <div class="card border-0">
                             <div class="card-body">
-                                <p><strong>{{ __('dashboard.Email') }}:</strong> {{ $doctor->email }}</p>
-                                <p><strong>{{ __('dashboard.Phone') }}:</strong> {{ $doctor->phone }}</p>
-                                <p><strong>{{ __('dashboard.Examination Price') }}:</strong> {{ (int) $doctor->examination_price }}
-                                    {{ __('dashboard.EGP') }}</p>
-                                <p><strong>{{ __('dashboard.Appointments') }}:</strong>
-                                    {{ is_array($doctor->getTranslation('appointments', 'ar'))
-                                        ? implode(', ', $doctor->getTranslation('appointments', 'ar'))
-                                        : $doctor->getTranslation('appointments', 'ar') }}
-                                </p>
-                                <p><strong>{{ __('dashboard.Section') }}:</strong>
-                                    {{ $doctor->section?->getTranslation('name', app()->getLocale()) }}
-                                </p>
+
+                                <table class="table table-bordered table-striped">
+                                    <tbody>
+                                        <!-- Email -->
+                                        <tr>
+                                            <th>{{ __('dashboard.Email') }}</th>
+                                            <td>{{ $doctor->email }}</td>
+                                        </tr>
+
+                                        <!-- Phone -->
+                                        <tr>
+                                            <th>{{ __('dashboard.Phone') }}</th>
+                                            <td>{{ $doctor->phone }}</td>
+                                        </tr>
+
+                                        <!-- Appointments -->
+                                        <tr>
+                                            <th>{{ __('dashboard.Appointments') }}</th>
+                                            <td>
+                                                @if ($doctor->appointments && $doctor->appointments->count())
+                                                    <table class="table table-sm table-hover mb-0">
+                                                        <tbody>
+                                                            @foreach ($doctor->appointments as $index => $appointment)
+                                                                <tr>
+                                                                    <td>{{ $loop->iteration }}</td>
+                                                                    <td>{{ $appointment->getTranslation('name', app()->getLocale()) }}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                @else
+                                                    <span
+                                                        class="text-muted">{{ __('dashboard.No Appointments') }}</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+
+                                        <!-- Section -->
+                                        <tr>
+                                            <th>{{ __('dashboard.Section') }}</th>
+                                            <td>{{ $doctor->section?->getTranslation('name', app()->getLocale()) }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 

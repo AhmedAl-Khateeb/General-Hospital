@@ -66,7 +66,7 @@ Route::group(
                 Route::post('show/{id}', [DoctorController::class, 'show'])->name('doctor.show');
                 Route::get('edit/{id}', [DoctorController::class, 'edit'])->name('doctor.edit');
                 Route::put('update/{id}', [DoctorController::class, 'update'])->name('doctor.update');
-                Route::delete('delete/{id}', [DoctorController::class, 'destroy'])->name('doctor.delete');
+                Route::delete('delete/{id?}', [DoctorController::class, 'destroy'])->name('doctor.delete');
 
                 Route::put('change-status/{id}', [DoctorController::class, 'changeStatus'])->name('doctor.changeStatus');
             });

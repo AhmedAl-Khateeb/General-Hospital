@@ -10,7 +10,7 @@ class Section extends Model
 {
     use PaginationTrait, HasTranslations;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
 
-    public $translatable = ['name'];
+    public $translatable = ['name', 'description'];
 }

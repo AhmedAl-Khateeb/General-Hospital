@@ -72,6 +72,7 @@
                             <tr>
                                 <th class="wd-15p border-bottom-0">ID</th>
                                 <th class="wd-15p border-bottom-0">{{ __('dashboard.Name') }}</th>
+                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Description') }}</th>
                                 <th class="wd-15p border-bottom-0">{{ __('dashboard.Created At') }}</th>
                                 <th class="wd-15p border-bottom-0">{{ __('dashboard.Action') }}</th>
                             </tr>
@@ -81,6 +82,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->name }}</td>
+                                    <td>{{ Str::limit($item->description, '50') }}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>
                                         <button class="btn btn-sm btn-primary" data-bs-toggle="modal"

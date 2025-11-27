@@ -18,6 +18,17 @@
                         <input type="text" class="form-control" id="name_en" name="name[en]" required>
                     </div>
                 </div>
+
+                <div class="modal-body">
+                    <div class="form-group mb-2">
+                        <label for="description_ar">{{ __('dashboard.Description') }} (AR)</label>
+                        <input type="text" class="form-control" id="description_ar" name="description[ar]" placeholder="اضف وصف">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="description_en">{{ __('dashboard.Description') }}  (EN)</label>
+                        <input type="text" class="form-control" id="description_en" name="description[en]" placeholder="Add Description">
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('dashboard.Close') }}</button>
                     <button type="submit" class="btn btn-primary">{{ __('dashboard.Save') }}</button>

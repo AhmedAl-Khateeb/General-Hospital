@@ -31,3 +31,11 @@
 <!-- custom js -->
 <script src="{{asset('Dashboard/js/custom.js')}}"></script><!-- Left-menu js-->
 <script src="{{asset('Dashboard/plugins/side-menu/sidemenu.js')}}"></script>
+
+<script>
+    $(document).ready(function () {
+        if ($.fn.DataTable.isDataTable('#example1')) {
+            $('#example1').DataTable().destroy();
+        }
+    });
+</script>

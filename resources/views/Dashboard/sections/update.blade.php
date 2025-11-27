@@ -21,6 +21,17 @@
                         value="{{ $section->getTranslation('name', 'en') }}" required>
                 </div>
 
+                <div class="form-group mb-2">
+                    <label for="description_ar">{{ (__('dashboard.Description')) }} (AR)</label>
+                    <input type="text" class="form-control" id="description_ar" name="description[ar]"
+                        value="{{ $section->getTranslation('description', 'ar') }}" placeholder="تعديل الوصف">
+                </div>
+                <div class="form-group mb-2">
+                    <label for="description_en">{{ (__('dashboard.Description')) }} (EN)</label>
+                    <input type="text" class="form-control" id="description_en" name="description[en]"
+                        value="{{ $section->getTranslation('description', 'en') }}" placeholder="Edit Description">
+                </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('dashboard.Close') }}</button>
                     <button type="submit" class="btn btn-primary">{{ __('dashboard.Update') }} </button>

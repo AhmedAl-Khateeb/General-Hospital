@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Doctor\DoctorRequest;
+use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Section;
 use App\Services\DoctorService;
@@ -17,14 +18,16 @@ class DoctorController extends Controller
     {
         $doctors = $this->doctorService->index();
         $sections = Section::all();
-        return view('Dashboard.doctors.index', compact('doctors', 'sections'));
+        $appointments = Appointment::all();
+        return view('Dashboard.doctors.index', compact('doctors', 'sections', 'appointments'));
     }
 
 
     public function create()
     {
         $sections = Section::all();
-        return view('Dashboard.doctors.create', compact('sections'));
+        $appointments = Appointment::all();
+        return view('Dashboard.doctors.create', compact('sections', 'appointments'));
     }
 
 
@@ -45,8 +48,9 @@ class DoctorController extends Controller
     public function edit($id)
     {
         $sections = Section::all();
+        $appointments = Appointment::all();
         $doctor = Doctor::findOrFail($id);
-        return view('Dashboard.doctors.update', compact('doctor', 'sections'));
+        return view('Dashboard.doctors.update', compact('doctor', 'sections', 'appointments'));
     }
 
 
@@ -57,9 +61,9 @@ class DoctorController extends Controller
     }
 
 
-    public function destroy(string $id)
+    public function destroy(Request $request, $id = null)
     {
-        $this->doctorService->destroy($id);
+        $this->doctorService->destroy($request, $id);
         return redirect()->route('doctor.index')->with('success', 'Delete Successfully');
     }
 

@@ -15,10 +15,8 @@ class Doctor extends Model implements HasMedia
 
     protected $fillable = [
         'name',
-        'appointments',
         'email',
         'phone',
-        'examination_price',
         'password',
         'status',
         'section_id',
@@ -26,12 +24,14 @@ class Doctor extends Model implements HasMedia
 
     protected $translatable = [
         'name',
-        'appointments',
     ];
 
     protected $hidden = [
         'password',
     ];
+
+
+
 
     protected function casts(): array
     {
