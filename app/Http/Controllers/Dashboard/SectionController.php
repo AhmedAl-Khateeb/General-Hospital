@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Section\SectionRequest;
+use App\Models\Appointment;
 use App\Models\Section;
 use App\Services\SectionService;
 use App\Traits\HttpResponse;
@@ -30,6 +31,16 @@ class SectionController extends Controller
         $this->sectionService->store($request->validated());
         return redirect()->route('section.index')->with('success',  __('dashboard.Section created successfully'));
     }
+
+    public function show($id)
+    {
+        $section = $this->sectionService->show($id);
+        $doctors = $section->doctors;
+        $appointments = Appointment::all();
+        $sections = Section::all();
+        return view('Dashboard.sections.show', compact('section', 'doctors', 'appointments', 'sections'));
+    }
+
 
     public function edit(string $id)
     {

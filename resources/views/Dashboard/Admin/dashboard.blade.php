@@ -36,6 +36,25 @@
             </div>
         </div>
 
+        {{-- doctors --}}
+        <div class="col-lg-4 col-md-12 col-sm-12 mb-4">
+            <div class="card rounded-4 custom-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+                        <h5 class="mb-0">
+                            <i class="fa fa-user-md text-info"></i> {{ __('dashboard.Number of Doctors') }}
+                        </h5>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a href="{{ route('doctor.index') }}" class="btn btn-success">
+                            {{ __('dashboard.Show') }}
+                        </a>
+                        <h2 class="fw-bold mb-0">{{ $doctors }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 @endsection

@@ -81,6 +81,24 @@
                                             <td>{{ $doctor->section?->getTranslation('name', app()->getLocale()) }}
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <th>{{ __('dashboard.Status') }}</th>
+                                    <td>
+                                        <form action="{{ route('doctor.changeStatus', $item->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <select name="status" class="form-select form-select-sm text-center"
+                                                style="color: {{ $item->status ? 'green' : 'red' }}"
+                                                onchange="this.style.color = (this.value == 1 ? 'green' : 'red'); this.form.submit();">
+                                                <option disabled>{{ __('dashboard.Change Status') }}</option>
+                                                <option value="1" {{ $item->status ? 'selected' : '' }}>مفعل</option>
+                                                <option value="0" {{ !$item->status ? 'selected' : '' }}>غير مفعل
+                                                </option>
+                                            </select>
+                                        </form>
+                                    </td>
+
+                                        </tr>
                                     </tbody>
                                 </table>
 

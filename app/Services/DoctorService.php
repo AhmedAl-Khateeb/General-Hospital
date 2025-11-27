@@ -93,9 +93,7 @@ class DoctorService
             if (isset($data['image']) && $data['image']) {
                 MediaHelper::uploadMedia($doctor, $data['image'], PhotoEnum::IMAGE);
             }
-            if (isset($data['appointment_ids'])) {
-                $doctor->appointments()->sync($data['appointment_ids']);
-            }
+            $doctor->appointments()->sync($data['appointment_ids'] ?? []);
         });
     }
 }

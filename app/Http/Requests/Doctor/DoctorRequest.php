@@ -41,8 +41,8 @@ class DoctorRequest extends FormRequest
             'section_id' => ValidationRuleHelper::foreignKeyRules([
                 'required' => $inUpdate ? 'sometimes' : 'required',
             ]),
-            // 'appointment_ids' => 'required|array',
-            // 'appointment_ids.*' => 'exists:appointments,id',
+            'appointment_ids' => 'nullable|array',
+            'appointment_ids.*' => 'exists:appointments,id',
             'image' => ValidationRuleHelper::storeOrUpdateImageRules(true),
         ];
     }

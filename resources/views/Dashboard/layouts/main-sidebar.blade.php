@@ -3,7 +3,7 @@
 <aside class="app-sidebar sidebar-scroll">
     <div class="main-sidebar-header active">
         <a class="desktop-logo logo-light active" href="{{ url('/' . ($page = 'index')) }}"><img
-                src="{{ asset('Dashboard/img/images.png') }}" class="main-logo" alt="logo"></a>
+                src="{{ asset('Dashboard/img/download.jfif') }}" class="main-logo" alt="logo"></a>
         <a class="desktop-logo logo-dark active" href="{{ url('/' . ($page = 'index')) }}"><img
                 src="{{ asset('Dashboard/img/brand/logo-white.png') }}" class="main-logo dark-theme" alt="logo"></a>
         <a class="logo-icon mobile-logo icon-light active" href="{{ url('/' . ($page = 'index')) }}"><img
@@ -55,11 +55,6 @@
                     <li @yield('section_active')>
                         <a class="slide-item" href="{{ route('section.index') }}">{{ __('dashboard.Show') }}</a>
                     </li>
-                    <li><a class="slide-item" href="{{ url('/' . ($page = 'chart-flot')) }}">Flot Charts</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . ($page = 'chart-chartjs')) }}">ChartJS</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . ($page = 'chart-echart')) }}">Echart</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . ($page = 'chart-sparkline')) }}">Sparkline</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . ($page = 'chart-peity')) }}">Chart-peity</a></li>
                 </ul>
             </li>
 

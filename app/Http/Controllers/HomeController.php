@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doctor;
 use App\Models\Section;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,7 @@ class HomeController extends Controller
     public function index()
     {
         $sections = Section::count();
-        return view('Dashboard.Admin.dashboard', compact('sections'));
+        $doctors = Doctor::count();
+        return view('Dashboard.Admin.dashboard', compact('sections','doctors'));
     }
 }

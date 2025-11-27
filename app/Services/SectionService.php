@@ -33,4 +33,9 @@ class SectionService
     {
         Section::query()->findOrFail($id)->delete();
     }
+
+    public function show($id)
+    {
+        return Section::with('doctors')->findOrFail($id);
+    }
 }

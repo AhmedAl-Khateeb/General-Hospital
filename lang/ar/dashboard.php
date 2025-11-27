@@ -81,4 +81,10 @@ return [
     'Submit' => 'تاكيد',
     'Processes' => 'العمليات',
     'sections_trans.warning' => 'يرجى التأكد من مراجعة الأطباء قبل حذف ',
+    'Number of Doctors' => 'عدد الأطباء',
+    'No Appointments' => 'لا يوجد مواعيد',
+    'Change Password' => 'تغيير كلمة المرور',
+    'Edit' => 'تعديل',
+    'Enabled' => 'مفعل',
+    'Not Enabled' => 'غير مفعل',
 ];

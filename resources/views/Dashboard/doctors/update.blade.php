@@ -78,7 +78,7 @@
                                     );
                                 @endphp
 
-                                <div class="collapse mt-2" id="appointmentCollapse{{ $doctor->id }}">
+                                <div class="collapse mt-2 show" id="appointmentCollapse{{ $doctor->id }}">
                                     @foreach ($appointments as $appointment)
                                         <div class="form-check mb-1">
                                             <input type="checkbox" class="form-check-input" name="appointment_ids[]"

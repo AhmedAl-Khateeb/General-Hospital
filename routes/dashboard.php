@@ -52,6 +52,7 @@ Route::group(
                 Route::get('index', [SectionController::class, 'index'])->name('section.index');
                 Route::get('create', [SectionController::class, 'create'])->name('section.create');
                 Route::post('store', [SectionController::class, 'store'])->name('section.store');
+                Route::get('show/{id}', [SectionController::class, 'show'])->name('section.show');
                 Route::get('edit/{user}', [SectionController::class, 'edit'])->name('section.edit');
                 Route::put('update/{user}', [SectionController::class, 'update'])->name('section.update');
                 Route::delete('delete/{id}', [SectionController::class, 'destroy'])->name('section.delete');

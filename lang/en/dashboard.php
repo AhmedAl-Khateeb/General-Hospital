@@ -79,4 +79,10 @@ return [
     'Submit' => 'Submit',
     'Processes' => 'Processes',
     'sections_trans.warning' => 'sections_trans.warning',
+    'Number of Doctors' => 'Number of Doctors',
+    'No Appointments' => 'No Appointments',
+    'Change Password' => 'Change Password',
+    'Edit' => 'Edit',
+    'Enabled' => 'Enabled',
+    'Not Enabled' => 'Not Enabled',
 ];

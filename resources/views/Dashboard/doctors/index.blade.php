@@ -17,35 +17,89 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-    table#example1 td, 
-    table#example1 th {
-        vertical-align: middle !important;
-        text-align: center;
-        white-space: nowrap;
-    }
+        /* مظهر موحد للجدول */
+        table td,
+        table th {
+            vertical-align: middle;
+            text-align: center;
+        }
 
-    /* تقليل ارتفاع الصف */
-    table#example1 tr {
-        height: 60px;
-    }
+        /* حجم الصف في الشاشات الكبيرة */
+        table tr {
+            height: 60px;
+        }
 
-    /* تصغير حجم ال dropdown & select */
-    .table .btn,
-    .table select {
-        padding: 5px 10px !important;
-        font-size: 13px !important;
-        height: auto !important;
-    }
+        /* حجم الأزرار داخل الجدول */
+        .table .btn,
+        .table select {
+            padding: 5px 10px !important;
+            font-size: 13px !important;
+        }
 
-    /* تثبيت حجم الصورة */
-    .doctor-img {
-        width: 45px;
-        height: 45px;
-        object-fit: cover;
-        border-radius: 50%;
-        box-shadow: 0px 0px 3px rgba(0,0,0,0.2);
-    }
-</style>
+        /* صورة الطبيب */
+        .doctor-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* إلغاء الـ scrollbar العرضي */
+        .table-responsive {
+            overflow-x: hidden !important;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* تحسين التصميم على الشاشات الصغيرة */
+        @media (max-width: 768px) {
+
+            table tr {
+                height: auto !important;
+            }
+
+            table td,
+            table th {
+                font-size: 13px;
+                padding: 6px 4px;
+                white-space: normal !important;
+                /* مهم */
+                word-wrap: break-word;
+            }
+
+            .doctor-img {
+                width: 35px !important;
+                height: 35px !important;
+            }
+
+            .dropdown .btn {
+                font-size: 12px !important;
+                padding: 4px 6px !important;
+            }
+
+            /* لو عايز تصغر عرض الأعمدة */
+            .truncate-text {
+                max-width: 120px !important;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                display: inline-block;
+            }
+
+            .card-header .d-flex {
+                flex-direction: column;
+                width: 100%;
+                gap: 8px;
+            }
+
+            .card-header form {
+                width: 100% !important;
+            }
+
+            .card-header .btn {
+                width: 100% !important;
+            }
+        }
+    </style>
 
 @endsection
 @section('page-header')
@@ -54,7 +108,7 @@
         <div class="my-auto">
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto">{{ __('dashboard.Show') }}</h4><span
-                    class="text-muted mt-1 tx-13 mr-2 mb-0"></span> 
+                    class="text-muted mt-1 tx-13 mr-2 mb-0"></span>
             </div>
         </div>
 
@@ -87,133 +141,143 @@
     <div class="row row-sm">
         <div class="col-xl-12">
             <div class="card">
-                <div class="card-header pb-0">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#createDoctorModal">
-                        {{ __('dashboard.Add Doctor+') }}
-                    </button>
-                    <button type="button" class="btn btn-danger" id="btn_delete_all">
-                        {{ __('dashboard.Delete All Doctors') }}
-                    </button>
+                <div class="card-header">
+
+                    <div class="row g-2">
+                        <!-- أزرار التحكم -->
+                        <div class="col-12 col-md-auto d-flex gap-2">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#createDoctorModal">
+                                {{ __('dashboard.Add Doctor+') }}
+                            </button>
+
+                            <button type="button" class="btn btn-danger" id="btn_delete_all">
+                                {{ __('dashboard.Delete All Doctors') }}
+                            </button>
+                        </div>
+
+                        <!-- مربع البحث -->
+                        <div class="col-12 col-md-4">
+                            <form method="GET" action="{{ route('doctor.index') }}">
+                                <div class="input-group">
+                                    <button class="btn btn-secondary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                    <input type="text" name="search" class="form-control"
+                                        placeholder="{{ app()->getLocale() === 'ar' ? 'ابحث بالاسم، القسم أو المواعيد' : 'Search by name, section or appointments' }}"
+                                        value="{{ request('search') }}">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
                 </div>
-                <div class="card-body">
-                    <table class="table table-striped table-hover text-md-nowrap" id="example1">
 
-                        <thead>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead class="table-light text-center">
                             <tr>
-                                <th><input type="checkbox" id="selectAll" name="select_all"></th>
-                                <th>ID</th>
-                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Image') }}</th>
-                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Name') }}</th>
-                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Email') }}</th>
-                                <th class="wd-5p border-bottom-0">{{ __('dashboard.Phone') }}</th>
-                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Status') }}</th>
-                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Action') }}</th>
+                                <th><input type="checkbox" id="selectAll"></th>
+                                <th>#</th>
+                                <th>{{ __('dashboard.Image') }}</th>
+                                <th>{{ __('dashboard.Name') }}</th>
+                                <th>{{ __('dashboard.Email') }}</th>
+                                <th>{{ __('dashboard.Phone') }}</th>
+                                <th>{{ __('dashboard.Section') }}</th>
+                                <th>{{ __('dashboard.Appointments') }}</th>
+                                <th>{{ __('dashboard.Status') }}</th>
+                                <th>{{ __('dashboard.Action') }}</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             @forelse($doctors as $item)
                                 <tr>
+                                    <!-- Checkbox -->
                                     <td><input type="checkbox" name="ids[]" value="{{ $item->id }}"></td>
-                                    <td>{{ $loop->iteration }}</td>
+
+                                    <td>{{ $item->id }}</td>
+
+                                    <!-- صورة الدكتور -->
+                                    <td class="text-center">
+                                        <img src="{{ $item->getFirstMediaUrl(\App\Enums\PhotoEnum::IMAGE) ?: asset('Dashboard/img/download.jfif') }}"
+                                            alt="doctor image" class="rounded-circle shadow-sm"
+                                            style="width:45px;height:45px;object-fit:cover;">
+                                    </td>
+
+                                    <td style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                                        title="{{ $item->getTranslation('name', app()->getLocale()) }}">
+                                        {{ $item->getTranslation('name', app()->getLocale()) }}
+                                    </td>
+                                    <td>{{ $item->email }}</td>
+
+                                    <td dir="ltr">{{ $item->phone }}</td>
+
+                                    <td style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                                        title="{{ $item->section?->getTranslation('name', app()->getLocale()) }}">
+                                        {{ $item->section?->getTranslation('name', app()->getLocale()) }}
+                                    </td>
+                                    <!-- عرض المواعيد -->
                                     <td>
-                                        @if ($item->getFirstMediaUrl(\App\Enums\PhotoEnum::IMAGE))
-                                            <img src="{{ $item->getFirstMediaUrl(\App\Enums\PhotoEnum::IMAGE) }}"
-                                                alt="doctor image" class="img-fluid rounded-circle shadow-sm" width="50"
-                                                height="50">
+                                        @if ($item->appointments->isNotEmpty())
+                                            {{ $item->appointments->map(fn($app) => $app->getTranslation('name', app()->getLocale()))->implode(' - ') }}
                                         @else
-                                            <img src="{{ asset('Dashboard/img/download.jfif') }}" alt="no image"
-                                                class="img-fluid rounded-circle shadow-sm" width="50" height="50">
+                                            <span class="text-muted">{{ __('dashboard.No Appointments') }}</span>
                                         @endif
                                     </td>
-                                    <td>{{ $item->getTranslation('name', app()->getLocale()) }}</td>
 
-                                    <td>{{ $item->email }}</td>
-                                    <td>{{ $item->phone }}</td>
+                                    <td>{{ $item->status }}</td>
+                                    <!-- عمليات -->
                                     <td>
-                                        <form action="{{ route('doctor.changeStatus', $item->id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <select name="status" class="form-control text-center"
-                                                style="font-size: 15px; height: 40px; {{ $item->status == 1 ? 'color: green;' : 'color: red;' }}"
-                                                onchange="this.style.color = (this.value == 1 ? 'green' : 'red'); this.form.submit();">
-                                                <option value="" disabled>{{ __('dashboard.Change Status') }}
-                                                </option>
-                                                <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>مفعل
-                                                </option>
-                                                <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>غير مفعل
-                                                </option>
-                                            </select>
-
-                                        </form>
-                                    </td>
-                                    <td>
-
-                                        <div class="dropdown">
-                                            <button aria-expanded="false" aria-haspopup="true"
-                                                class="btn ripple btn-outline-primary btn-sm" data-bs-toggle="dropdown"
-                                                type="button">
+                                        <div class="dropdown text-center">
+                                            <button class="btn btn-outline-primary btn-sm dropdown-toggle"
+                                                data-bs-toggle="dropdown">
                                                 {{ __('dashboard.Processes') }}
-                                                <i class="fas fa-caret-down mr-1"></i>
                                             </button>
-                                            <div class="dropdown-menu tx-13">
+                                            <div class="dropdown-menu  text-center">
                                                 <a class="dropdown-item" href="#" data-bs-toggle="modal"
                                                     data-bs-target="#showModal-{{ $item->id }}">
-                                                    <i class="fa-regular fa-eye"></i>&nbsp;&nbsp;عرض البيانات
+                                                    <i class="fa-regular fa-eye text-info"></i> {{ __('dashboard.Show') }}
                                                 </a>
                                                 <a class="dropdown-item" href="#" data-bs-toggle="modal"
                                                     data-bs-target="#updateModal-{{ $item->id }}">
-                                                    <i class="text-success ti-user"></i>&nbsp;&nbsp;تعديل البيانات
-                                                </a>
-
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#update_password{{ $item->id }}">
-                                                    <i class="text-primary ti-key"></i>&nbsp;&nbsp;تغير كلمة المرور
-                                                </a>
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#update_status{{ $item->id }}">
-                                                    <i class="text-warning ti-back-right"></i>&nbsp;&nbsp;تغير الحالة
+                                                    <i class="fa-regular fa-pen-to-square text-success"></i>
+                                                    {{ __('dashboard.Edit') }}
                                                 </a>
                                                 <a class="dropdown-item" href="#" data-bs-toggle="modal"
                                                     data-bs-target="#deleteModal-{{ $item->id }}">
-                                                    <i class="text-danger ti-trash"></i>&nbsp;&nbsp;حذف البيانات
+                                                    <i
+                                                        class="fa-solid fa-trash text-danger"></i>{{ __('dashboard.Delete') }}
                                                 </a>
                                             </div>
                                         </div>
 
-
-                                        @include('Dashboard.doctors.update', [
-                                            'doctor' => $item,
-                                        ])
-                                        @include('Dashboard.doctors.delete', [
-                                            'doctor' => $item,
-                                        ])
-                                        @include('Dashboard.doctors.delete_select', [
-                                            'doctor' => $item,
-                                        ])
-                                        @include('Dashboard.doctors.showDetails', [
-                                            'doctor' => $item,
-                                        ])
+                                        @include('Dashboard.doctors.update', ['doctor' => $item])
+                                        @include('Dashboard.doctors.delete', ['doctor' => $item])
+                                        @include('Dashboard.doctors.delete_select', ['doctor' => $item])
+                                        @include('Dashboard.doctors.showDetails', ['doctor' => $item])
                                     </td>
-
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center">{{ __('dashboard.no_data') }}</td>
+                                    <td class="text-center" colspan="10">{{ __('dashboard.no_data') }}</td>
                                 </tr>
                             @endforelse
                         </tbody>
+
                     </table>
+
+
                 </div>
+
                 <div class="d-flex justify-content-center mt-3">
                     {{ $doctors->links('pagination::bootstrap-4') }}
                 </div>
             </div>
-                <a href="{{ route('dashboard.admin') }}" class="btn btn-danger"><span>{{ __('dashboard.Back') }}</span></a>
-            </div>
-            </div>
+            <a href="{{ route('dashboard.admin') }}" class="btn btn-danger"><span>{{ __('dashboard.Back') }}</span></a>
         </div>
+    </div>
+    </div>
     </div>
     <!--/div-->
 

@@ -70,18 +70,18 @@
 
                         <thead>
                             <tr>
-                                <th class="wd-15p border-bottom-0">ID</th>
-                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Name') }}</th>
-                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Description') }}</th>
-                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Created At') }}</th>
-                                <th class="wd-15p border-bottom-0">{{ __('dashboard.Action') }}</th>
+                                <th>ID</th>
+                                <th>{{ __('dashboard.Name') }}</th>
+                                <th>{{ __('dashboard.Description') }}</th>
+                                <th>{{ __('dashboard.Created At') }}</th>
+                                <th>{{ __('dashboard.Action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($sections as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->name }}</td>
+                                    <td><a href="{{ route('section.show', $item->id) }}">{{ $item->name }}</a></td>
                                     <td>{{ Str::limit($item->description, '50') }}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>
