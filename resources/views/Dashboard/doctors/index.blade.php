@@ -164,7 +164,7 @@
                                         <i class="fa fa-search"></i>
                                     </button>
                                     <input type="text" name="search" class="form-control"
-                                        placeholder="{{ app()->getLocale() === 'ar' ? 'ابحث بالاسم، القسم أو المواعيد' : 'Search by name, section or appointments' }}"
+                                        placeholder="{{ app()->getLocale() === 'ar' ? 'ابحث بالاسم، القسم' : 'Search by name, section or appointments' }}"
                                         value="{{ request('search') }}">
                                 </div>
                             </form>

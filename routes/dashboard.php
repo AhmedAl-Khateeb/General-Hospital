@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AdminController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\DoctorController;
 use App\Http\Controllers\Dashboard\SectionController;
+use App\Http\Controllers\Dashboard\ServiceController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,7 @@ Route::group(
                 Route::delete('delete/{id}', [SectionController::class, 'destroy'])->name('section.delete');
             });
             // Sections Route End
+            #####################################################################
 
             // Doctors Route Start
             Route::prefix('doctors')->group(function () {
@@ -70,7 +72,20 @@ Route::group(
                 Route::delete('delete/{id?}', [DoctorController::class, 'destroy'])->name('doctor.delete');
 
                 Route::put('change-status/{id}', [DoctorController::class, 'changeStatus'])->name('doctor.changeStatus');
-            });
+            }); // Doctors Route End
+            #############################################################################################
+
+            // Serivces Route Start
+            Route::prefix('services')->group(function () {
+                Route::get('index', [ServiceController::class, 'index'])->name('Service.index');
+                Route::get('create', [ServiceController::class, 'create'])->name('Service.create');
+                Route::post('store', [ServiceController::class, 'store'])->name('Service.store');
+                Route::get('edit/{id}', [ServiceController::class, 'edit'])->name('Service.edit');
+                Route::put('update/{id}', [ServiceController::class, 'update'])->name('Service.update');
+                Route::delete('delete/{id}', [ServiceController::class, 'destroy'])->name('Service.delete');
+                Route::patch('change-status/{id}', [ServiceController::class, 'changeStatus'])->name('service.changeStatus');
+            }); // Services Route End
+            ###########################################################################################
             // Doctors Route End
         });
         require __DIR__ . '/auth.php';

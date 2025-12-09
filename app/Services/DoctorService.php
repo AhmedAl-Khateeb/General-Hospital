@@ -24,11 +24,6 @@ class DoctorService
                     ->orWhereHas('section', function ($sec) use ($search) {
                         $sec->where('name->ar', 'like', "%$search%")
                             ->orWhere('name->en', 'like', "%$search%");
-                    })
-
-                    ->orWhereHas('appointments', function ($app) use ($search) {
-                        $app->where('name->ar', 'like', "%$search%")
-                            ->orWhere('name->en', 'like', "%$search%");
                     });
             });
         }
